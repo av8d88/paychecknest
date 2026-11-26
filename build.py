@@ -422,6 +422,10 @@ def main():
     with open(os.path.join(DIST, INDEXNOW_KEY + ".txt"), "w", encoding="utf-8") as f:
         f.write(INDEXNOW_KEY)
 
+    # Google Search Console HTML-file verification
+    with open(os.path.join(DIST, "googlea71fab601229e434.html"), "w", encoding="utf-8") as f:
+        f.write("google-site-verification: googlea71fab601229e434.html")
+
     print("Built %d pages -> %s" % (len(pages), DIST))
 
 if __name__ == "__main__":
