@@ -5,7 +5,7 @@ import json, os, shutil, datetime
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(ROOT, "dist")
 SITE_NAME = "PaycheckNest"
-SITE_URL = "https://av8d88.github.io/paychecknest"  # temporary home; switch to custom domain later
+SITE_URL = "https://paychecknest.pages.dev"  # primary: Cloudflare Pages (github.io is mirror)
 INDEXNOW_KEY = "8f3e2a1c9b4d6e8f0a2c4e6b8d0f2a4c"
 YEAR = 2026
 
@@ -46,12 +46,12 @@ def money0(n): return "$" + format(round(n), ",")
 # ---------- page shell ----------
 def header():
     return """<header><div class="wrap">
-<a class="logo" href="index.html">Paycheck<span>Nest</span></a>
+<a class="logo" href="index">Paycheck<span>Nest</span></a>
 <nav>
-<a href="index.html">All States</a>
-<a href="overtime-tax-calculator.html">Overtime Tax</a>
-<a href="tips-tax-calculator.html">Tips Tax</a>
-<a href="salary-to-hourly-calculator.html">Salary→Hourly</a>
+<a href="index">All States</a>
+<a href="overtime-tax-calculator">Overtime Tax</a>
+<a href="tips-tax-calculator">Tips Tax</a>
+<a href="salary-to-hourly-calculator">Salary→Hourly</a>
 </nav></div></header>"""
 
 def footer():
@@ -61,7 +61,7 @@ Federal figures: IRS Rev. Proc. 2025-32 (TY2026), SSA 2026 COLA. State rates: 20
 <p>&copy; %d PaycheckNest</p></div></footer>""" % datetime.date.today().year
 
 def page(title, desc, path, body, extra_head=""):
-    canonical = SITE_URL + "/" + path
+    canonical = SITE_URL + ("/" if path == "index.html" else "/" + path[:-5])
     return """<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
@@ -165,7 +165,7 @@ def state_page(st):
 <h3>How accurate is this calculator?</h3>
 <p>It models %(year)d federal brackets, FICA and %(name)s state brackets. Real withholding also depends on W-4 settings, benefits, local taxes and credits, so treat the result as a close planning estimate, not tax advice.</p>
 <h3>What is the "no tax on overtime / tips" deduction?</h3>
-<p>Under the One Big Beautiful Bill Act (2025&ndash;2028), eligible workers can deduct up to $12,500 of overtime premium pay ($25,000 for joint filers) and up to $25,000 of tips from federal taxable income. Try our <a href="overtime-tax-calculator.html">overtime tax calculator</a> and <a href="tips-tax-calculator.html">tips tax calculator</a>.</p>
+<p>Under the One Big Beautiful Bill Act (2025&ndash;2028), eligible workers can deduct up to $12,500 of overtime premium pay ($25,000 for joint filers) and up to $25,000 of tips from federal taxable income. Try our <a href="overtime-tax-calculator">overtime tax calculator</a> and <a href="tips-tax-calculator">tips tax calculator</a>.</p>
 </div>
 
 <h2 class="section">Paycheck calculators for other states</h2>
@@ -210,12 +210,12 @@ def home_page():
 
 <h2 class="section">Popular tools</h2>
 <div class="grid">
-<a class="tile" href="overtime-tax-calculator.html"><b>Overtime Tax Calculator</b><small>"No tax on overtime" deduction — up to $12,500 / $25,000</small></a>
-<a class="tile" href="tips-tax-calculator.html"><b>Tips Tax Calculator</b><small>"No tax on tips" deduction — up to $25,000</small></a>
-<a class="tile" href="salary-to-hourly-calculator.html"><b>Salary to Hourly Converter</b><small>Convert annual salary to hourly rate &amp; back</small></a>
-<a class="tile" href="california-paycheck-calculator.html"><b>California Paycheck</b><small>Progressive, up to 12.3%%</small></a>
-<a class="tile" href="texas-paycheck-calculator.html"><b>Texas Paycheck</b><small>No state income tax</small></a>
-<a class="tile" href="new-york-paycheck-calculator.html"><b>New York Paycheck</b><small>Progressive, up to 10.9%%</small></a>
+<a class="tile" href="overtime-tax-calculator"><b>Overtime Tax Calculator</b><small>"No tax on overtime" deduction — up to $12,500 / $25,000</small></a>
+<a class="tile" href="tips-tax-calculator"><b>Tips Tax Calculator</b><small>"No tax on tips" deduction — up to $25,000</small></a>
+<a class="tile" href="salary-to-hourly-calculator"><b>Salary to Hourly Converter</b><small>Convert annual salary to hourly rate &amp; back</small></a>
+<a class="tile" href="california-paycheck-calculator"><b>California Paycheck</b><small>Progressive, up to 12.3%%</small></a>
+<a class="tile" href="texas-paycheck-calculator"><b>Texas Paycheck</b><small>No state income tax</small></a>
+<a class="tile" href="new-york-paycheck-calculator"><b>New York Paycheck</b><small>Progressive, up to 10.9%%</small></a>
 </div>
 
 <h2 class="section">Choose your state</h2>
@@ -405,7 +405,7 @@ def main():
         with open(os.path.join(DIST, filename), "w", encoding="utf-8") as f:
             f.write(html)
 
-    urls = [SITE_URL + "/" + ("index.html" if fn == "index.html" else fn) for fn, _ in pages]
+    urls = [SITE_URL + ("/" if fn == "index.html" else "/" + fn[:-5]) for fn, _ in pages]
     sitemap = ['<?xml version="1.0" encoding="UTF-8"?>',
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for u in urls:
