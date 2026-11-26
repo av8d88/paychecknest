@@ -5,7 +5,8 @@ import json, os, shutil, datetime
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(ROOT, "dist")
 SITE_NAME = "PaycheckNest"
-SITE_URL = "https://paychecknest.pages.dev"  # update after deploy
+SITE_URL = "https://av8d88.github.io/paychecknest"  # temporary home; switch to custom domain later
+INDEXNOW_KEY = "8f3e2a1c9b4d6e8f0a2c4e6b8d0f2a4c"
 YEAR = 2026
 
 with open(os.path.join(ROOT, "data", "states.json"), encoding="utf-8") as f:
@@ -45,12 +46,12 @@ def money0(n): return "$" + format(round(n), ",")
 # ---------- page shell ----------
 def header():
     return """<header><div class="wrap">
-<a class="logo" href="/">Paycheck<span>Nest</span></a>
+<a class="logo" href="index.html">Paycheck<span>Nest</span></a>
 <nav>
-<a href="/">All States</a>
-<a href="/overtime-tax-calculator.html">Overtime Tax</a>
-<a href="/tips-tax-calculator.html">Tips Tax</a>
-<a href="/salary-to-hourly-calculator.html">Salary→Hourly</a>
+<a href="index.html">All States</a>
+<a href="overtime-tax-calculator.html">Overtime Tax</a>
+<a href="tips-tax-calculator.html">Tips Tax</a>
+<a href="salary-to-hourly-calculator.html">Salary→Hourly</a>
 </nav></div></header>"""
 
 def footer():
@@ -72,7 +73,7 @@ def page(title, desc, path, body, extra_head=""):
 <meta property="og:description" content="%s">
 <meta property="og:type" content="website">
 %s
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="assets/style.css">
 </head><body>
 %s
 <main class="wrap">
@@ -85,7 +86,7 @@ def state_links_html(current_slug=None):
     out = ['<div class="state-links">']
     for s in STATES:
         if s["slug"] == current_slug: continue
-        out.append('<a href="/%s-paycheck-calculator.html">%s</a>' % (s["slug"], s["abbr"]))
+        out.append('<a href="%s-paycheck-calculator.html">%s</a>' % (s["slug"], s["abbr"]))
     out.append('</div>')
     return "".join(out)
 
@@ -164,15 +165,15 @@ def state_page(st):
 <h3>How accurate is this calculator?</h3>
 <p>It models %(year)d federal brackets, FICA and %(name)s state brackets. Real withholding also depends on W-4 settings, benefits, local taxes and credits, so treat the result as a close planning estimate, not tax advice.</p>
 <h3>What is the "no tax on overtime / tips" deduction?</h3>
-<p>Under the One Big Beautiful Bill Act (2025&ndash;2028), eligible workers can deduct up to $12,500 of overtime premium pay ($25,000 for joint filers) and up to $25,000 of tips from federal taxable income. Try our <a href="/overtime-tax-calculator.html">overtime tax calculator</a> and <a href="/tips-tax-calculator.html">tips tax calculator</a>.</p>
+<p>Under the One Big Beautiful Bill Act (2025&ndash;2028), eligible workers can deduct up to $12,500 of overtime premium pay ($25,000 for joint filers) and up to $25,000 of tips from federal taxable income. Try our <a href="overtime-tax-calculator.html">overtime tax calculator</a> and <a href="tips-tax-calculator.html">tips tax calculator</a>.</p>
 </div>
 
 <h2 class="section">Paycheck calculators for other states</h2>
 %(state_links)s
 
 <script>window.STATE = %(state_json)s;</script>
-<script src="/assets/calc.js"></script>
-<script src="/assets/paycheck-page.js"></script>
+<script src="assets/calc.js"></script>
+<script src="assets/paycheck-page.js"></script>
 """ % {
         "name": name, "abbr": st["abbr"], "year": YEAR,
         "tax_intro": tax_intro, "tax_intro_faq": tax_intro,
@@ -199,7 +200,7 @@ def home_page():
         if s["type"] == "none": tag = "No state income tax"
         elif s["type"] == "flat": tag = "%.2f%% flat" % (s["rate"] * 100)
         else: tag = "Up to %.1f%%" % (s["brackets"][-1][1] * 100)
-        tiles.append('<a class="tile" href="/%s-paycheck-calculator.html"><b>%s</b><small>%s</small></a>' % (s["slug"], s["name"], tag))
+        tiles.append('<a class="tile" href="%s-paycheck-calculator.html"><b>%s</b><small>%s</small></a>' % (s["slug"], s["name"], tag))
 
     body = """
 <div class="hero">
@@ -209,12 +210,12 @@ def home_page():
 
 <h2 class="section">Popular tools</h2>
 <div class="grid">
-<a class="tile" href="/overtime-tax-calculator.html"><b>Overtime Tax Calculator</b><small>"No tax on overtime" deduction — up to $12,500 / $25,000</small></a>
-<a class="tile" href="/tips-tax-calculator.html"><b>Tips Tax Calculator</b><small>"No tax on tips" deduction — up to $25,000</small></a>
-<a class="tile" href="/salary-to-hourly-calculator.html"><b>Salary to Hourly Converter</b><small>Convert annual salary to hourly rate &amp; back</small></a>
-<a class="tile" href="/california-paycheck-calculator.html"><b>California Paycheck</b><small>Progressive, up to 12.3%%</small></a>
-<a class="tile" href="/texas-paycheck-calculator.html"><b>Texas Paycheck</b><small>No state income tax</small></a>
-<a class="tile" href="/new-york-paycheck-calculator.html"><b>New York Paycheck</b><small>Progressive, up to 10.9%%</small></a>
+<a class="tile" href="overtime-tax-calculator.html"><b>Overtime Tax Calculator</b><small>"No tax on overtime" deduction — up to $12,500 / $25,000</small></a>
+<a class="tile" href="tips-tax-calculator.html"><b>Tips Tax Calculator</b><small>"No tax on tips" deduction — up to $25,000</small></a>
+<a class="tile" href="salary-to-hourly-calculator.html"><b>Salary to Hourly Converter</b><small>Convert annual salary to hourly rate &amp; back</small></a>
+<a class="tile" href="california-paycheck-calculator.html"><b>California Paycheck</b><small>Progressive, up to 12.3%%</small></a>
+<a class="tile" href="texas-paycheck-calculator.html"><b>Texas Paycheck</b><small>No state income tax</small></a>
+<a class="tile" href="new-york-paycheck-calculator.html"><b>New York Paycheck</b><small>Progressive, up to 10.9%%</small></a>
 </div>
 
 <h2 class="section">Choose your state</h2>
@@ -231,7 +232,7 @@ def home_page():
 <p>All calculators run 100%% in your browser — your numbers never leave your device. Estimates are for planning only and are not tax advice.</p>
 </div>
 
-<script src="/assets/calc.js"></script>
+<script src="assets/calc.js"></script>
 """ % {"year": YEAR, "tiles": "".join(tiles)}
 
     return ("index.html", page("Paycheck Calculator %(year)d — Take-Home Pay for All 50 States | PaycheckNest" % {"year": YEAR},
@@ -246,7 +247,7 @@ def tool_page(filename, title, desc, h1, sub, form_html, js, content_html):
 <div class="results" id="results"></div>
 </div>
 <div class="card content">%s</div>
-<script src="/assets/calc.js"></script>
+<script src="assets/calc.js"></script>
 <script>%s</script>
 """ % (h1, sub, form_html, content_html, js)
     return (filename, page(title, desc, filename, body))
@@ -393,10 +394,8 @@ document.getElementById("go").addEventListener("click", function(){
 
 # ---------- build ----------
 def main():
-    if os.path.exists(DIST):
-        shutil.rmtree(DIST)
-    os.makedirs(DIST)
-    shutil.copytree(os.path.join(ROOT, "assets"), os.path.join(DIST, "assets"))
+    os.makedirs(DIST, exist_ok=True)
+    shutil.copytree(os.path.join(ROOT, "assets"), os.path.join(DIST, "assets"), dirs_exist_ok=True)
 
     pages = [home_page(), overtime_page(), tips_page(), salary_hourly_page()]
     for st in STATES:
@@ -416,6 +415,10 @@ def main():
         f.write("\n".join(sitemap))
     with open(os.path.join(DIST, "robots.txt"), "w", encoding="utf-8") as f:
         f.write("User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n" % SITE_URL)
+
+    # IndexNow key file (Bing instant indexing)
+    with open(os.path.join(DIST, INDEXNOW_KEY + ".txt"), "w", encoding="utf-8") as f:
+        f.write(INDEXNOW_KEY)
 
     print("Built %d pages -> %s" % (len(pages), DIST))
 
