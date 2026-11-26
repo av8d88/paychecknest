@@ -88,7 +88,15 @@ def state_links_html(current_slug=None):
     out = ['<div class="state-links">']
     for s in STATES:
         if s["slug"] == current_slug: continue
-        out.append('<a href="%s-paycheck-calculator.html">%s</a>' % (s["slug"], s["abbr"]))
+        out.append('<a href="%s-paycheck-calculator">%s</a>' % (s["slug"], s["abbr"]))
+    out.append('</div>')
+    return "".join(out)
+
+def state_links_html_hourly(current_slug=None):
+    out = ['<div class="state-links">']
+    for s in STATES:
+        if s["slug"] == current_slug: continue
+        out.append('<a href="%s-hourly-paycheck-calculator">%s</a>' % (s["slug"], s["abbr"]))
     out.append('</div>')
     return "".join(out)
 
@@ -148,6 +156,8 @@ def state_page(st):
 </div>
 </div>
 
+<p style="text-align:center;color:var(--muted)">Paid by the hour? Use the <a href="%(slug)s-hourly-paycheck-calculator">%(name)s hourly paycheck calculator</a>.</p>
+
 %(note)s
 
 <div class="card content">
@@ -177,7 +187,7 @@ def state_page(st):
 <script src="assets/calc.js"></script>
 <script src="assets/paycheck-page.js"></script>
 """ % {
-        "name": name, "abbr": st["abbr"], "year": YEAR,
+        "name": name, "abbr": st["abbr"], "slug": slug, "year": YEAR,
         "tax_intro": tax_intro, "tax_intro_faq": tax_intro,
         "rate_line": rate_line, "ex": money0(ex), "note": note,
         "state_links": state_links_html(slug),
@@ -194,6 +204,92 @@ def state_page(st):
         ]})
     extra = '<script type="application/ld+json">%s</script>' % faq_ld
     return ("%s-paycheck-calculator.html" % slug, page(title, desc, "%s-paycheck-calculator.html" % slug, body, extra))
+
+# ---------- state hourly page ----------
+def state_hourly_page(st):
+    name, slug = st["name"], st["slug"]
+    title = "%s Hourly Paycheck Calculator %d — After-Tax Pay Per Hour" % (name, YEAR)
+    desc = "Free %s hourly paycheck calculator for %d. Enter your hourly wage, see after-tax pay per hour, per paycheck and per year after federal, state and FICA taxes." % (name, YEAR)
+
+    if st["type"] == "none":
+        tax_intro = "%s has no state income tax — only federal tax and FICA come out of your check." % name
+    elif st["type"] == "flat":
+        tax_intro = "%s charges a flat %.2f%% state income tax." % (name, st["rate"] * 100)
+    else:
+        tax_intro = "%s has a progressive income tax topping out around %.1f%%." % (name, st["brackets"][-1][1] * 100)
+
+    ex = example_net(st, 52000)
+    note = ("<div class='note'><strong>Note:</strong> %s</div>" % st["note"]) if st.get("note") else ""
+
+    body = """
+<div class="hero">
+<h1>%(name)s Hourly Paycheck Calculator %(year)d</h1>
+<p>Hourly worker in %(name)s? Enter your wage and hours — see exactly what lands in your bank account after federal tax, %(abbr)s state tax, Social Security and Medicare.</p>
+</div>
+
+<div class="card">
+<div class="row">
+<div><label for="wage">Hourly wage ($)</label><input id="wage" type="number" value="25" min="0" step="0.25"></div>
+<div><label for="hours">Hours per week</label><input id="hours" type="number" value="40" min="1" max="80" step="1"></div>
+</div>
+<div class="row">
+<div><label for="status">Filing status</label><select id="status">
+<option value="single">Single</option><option value="married">Married filing jointly</option><option value="hoh">Head of household</option></select></div>
+<div><label for="freq">Pay frequency</label><select id="freq">
+<option value="biweekly">Every 2 weeks (26 checks)</option><option value="weekly">Weekly (52)</option>
+<option value="semimonthly">Twice a month (24)</option><option value="monthly">Monthly (12)</option></select></div>
+</div>
+<div class="row">
+<div><label for="k401">Pre-tax 401(k) contribution (%%)</label><input id="k401" type="number" value="0" min="0" max="75" step="1"></div>
+</div>
+<button class="btn" id="calc-btn">Calculate</button>
+
+<div class="results" id="results">
+<p style="margin-top:8px">Your estimated take-home pay</p>
+<div class="big" id="r-net-check"></div>
+<p style="color:var(--muted)"><span id="r-period-label"></span> &middot; <b id="r-net-hour"></b>/hour after tax &middot; <b id="r-net-year"></b>/year &middot; you keep <b id="r-pct"></b></p>
+<table>
+<tr><th>Breakdown (annual)</th><th class="num">Amount</th></tr>
+<tr><td>Gross pay</td><td class="num" id="r-gross-year"></td></tr>
+<tr><td>Federal income tax</td><td class="num" id="r-fed"></td></tr>
+<tr><td>%(name)s state income tax</td><td class="num" id="r-state"></td></tr>
+<tr><td>Social Security (6.2%%)</td><td class="num" id="r-ss"></td></tr>
+<tr><td>Medicare (1.45%%)</td><td class="num" id="r-med"></td></tr>
+<tr><td>Total deductions</td><td class="num" id="r-total"></td></tr>
+</table>
+</div>
+</div>
+
+<p style="text-align:center;color:var(--muted)">On a salary instead? Use the <a href="%(slug)s-paycheck-calculator">%(name)s paycheck calculator</a>.</p>
+
+%(note)s
+
+<div class="card content">
+<h2>What does $25/hour look like after taxes in %(name)s?</h2>
+<p>At <strong>$25/hour, 40 hours a week</strong>, your gross pay is $52,000 a year. As a single filer in %(name)s you'd take home roughly <strong>%(ex)s per year</strong> (%(year)d rules). %(tax_intro)s</p>
+<h2>How hourly pay is taxed in %(name)s</h2>
+<ul>
+<li>Your gross pay = hourly wage &times; hours per week &times; 52</li>
+<li>Federal income tax uses %(year)d brackets after the $16,100 standard deduction (single)</li>
+<li>Social Security takes 6.2%% (up to $184,500 of wages) and Medicare 1.45%%</li>
+<li>%(tax_intro)s</li>
+<li>Working overtime? The premium half of time-and-a-half may be deductible — check the <a href="overtime-tax-calculator">overtime tax calculator</a></li>
+</ul>
+</div>
+
+<h2 class="section">Hourly paycheck calculators for other states</h2>
+%(state_links)s
+
+<script>window.STATE = %(state_json)s;</script>
+<script src="assets/calc.js"></script>
+<script src="assets/paycheck-hourly-page.js"></script>
+""" % {
+        "name": name, "abbr": st["abbr"], "slug": slug, "year": YEAR,
+        "tax_intro": tax_intro, "ex": money0(ex), "note": note,
+        "state_links": state_links_html_hourly(slug),
+        "state_json": json.dumps(st),
+    }
+    return ("%s-hourly-paycheck-calculator.html" % slug, page(title, desc, "%s-hourly-paycheck-calculator.html" % slug, body))
 
 # ---------- homepage ----------
 def home_page():
@@ -223,6 +319,9 @@ def home_page():
 <h2 class="section">Choose your state</h2>
 <div class="grid">%(tiles)s</div>
 
+<h2 class="section">Hourly paycheck calculators by state</h2>
+%(hourly_links)s
+
 <div class="card content">
 <h2>What's new for %(year)d taxes?</h2>
 <ul>
@@ -235,7 +334,7 @@ def home_page():
 </div>
 
 <script src="assets/calc.js"></script>
-""" % {"year": YEAR, "tiles": "".join(tiles)}
+""" % {"year": YEAR, "tiles": "".join(tiles), "hourly_links": state_links_html_hourly()}
 
     return ("index.html", page("Paycheck Calculator %(year)d — Take-Home Pay for All 50 States | PaycheckNest" % {"year": YEAR},
                                "Free paycheck calculators for all 50 states + DC. Estimate %(year)d take-home pay after federal, state, Social Security and Medicare taxes. No signup, runs in your browser." % {"year": YEAR},
@@ -402,6 +501,7 @@ def main():
     pages = [home_page(), overtime_page(), tips_page(), salary_hourly_page()]
     for st in STATES:
         pages.append(state_page(st))
+        pages.append(state_hourly_page(st))
 
     for filename, html in pages:
         with open(os.path.join(DIST, filename), "w", encoding="utf-8") as f:
