@@ -59,7 +59,8 @@ def footer():
     return """<footer><div class="wrap">
 <p>PaycheckNest — free US paycheck &amp; tax calculators. Estimates for planning only; not tax advice.
 Federal figures: IRS Rev. Proc. 2025-32 (TY2026), SSA 2026 COLA. State rates: 2025/2026 enacted schedules.</p>
-<p>&copy; %d PaycheckNest</p></div></footer>""" % datetime.date.today().year
+<p>&copy; %d PaycheckNest</p>
+<p>Sister site: <a href="https://loannest.pages.dev/">LoanNest — mortgage &amp; loan calculators</a></p></div></footer>""" % datetime.date.today().year
 
 def page(title, desc, path, body, extra_head=""):
     canonical = SITE_URL + ("/" if path == "index.html" else "/" + path[:-5])
