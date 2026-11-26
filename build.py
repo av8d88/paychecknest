@@ -7,6 +7,7 @@ DIST = os.path.join(ROOT, "dist")
 SITE_NAME = "PaycheckNest"
 SITE_URL = "https://paychecknest.pages.dev"  # primary: Cloudflare Pages (github.io is mirror)
 INDEXNOW_KEY = "8f3e2a1c9b4d6e8f0a2c4e6b8d0f2a4c"
+GOOGLE_VERIFY = "F0S3I3ddnvG3z9qdL6rDpwDA6bqNE_50ZbUpa1XoUo8"
 YEAR = 2026
 
 with open(os.path.join(ROOT, "data", "states.json"), encoding="utf-8") as f:
@@ -66,6 +67,7 @@ def page(title, desc, path, body, extra_head=""):
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="%s">
 <title>%s</title>
 <meta name="description" content="%s">
 <link rel="canonical" href="%s">
@@ -80,7 +82,7 @@ def page(title, desc, path, body, extra_head=""):
 %s
 </main>
 %s
-</body></html>""" % (title, desc, canonical, title, desc, extra_head, header(), body, footer())
+</body></html>""" % (GOOGLE_VERIFY, title, desc, canonical, title, desc, extra_head, header(), body, footer())
 
 def state_links_html(current_slug=None):
     out = ['<div class="state-links">']
