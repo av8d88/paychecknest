@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="F0S3I3ddnvG3z9qdL6rDpwDA6bqNE_50ZbUpa1XoUo8">
+<title>Tips Tax Calculator 2026 — No Tax on Tips Deduction</title>
+<meta name="description" content="Calculate savings from the 2025-2028 'no tax on tips' deduction — up to $25,000 of qualified tips deductible from federal income tax.">
+<link rel="canonical" href="https://paychecknest.pages.dev/tips-tax-calculator">
+<meta property="og:title" content="Tips Tax Calculator 2026 — No Tax on Tips Deduction">
+<meta property="og:description" content="Calculate savings from the 2025-2028 'no tax on tips' deduction — up to $25,000 of qualified tips deductible from federal income tax.">
+<meta property="og:type" content="website">
+
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header><div class="wrap">
+<a class="logo" href="index">Paycheck<span>Nest</span></a>
+<nav>
+<a href="index">All States</a>
+<a href="overtime-tax-calculator">Overtime Tax</a>
+<a href="tips-tax-calculator">Tips Tax</a>
+<a href="salary-to-hourly-calculator">Salary→Hourly</a>
+</nav></div></header>
+<main class="wrap">
+
+<div class="hero"><h1>Tips Tax Calculator (2026)</h1><p>Up to $25,000 of qualified tips is now deductible. See what that saves you.</p></div>
+<div class="card">
+<div class="row">
+<div><label for="tips">Annual tips received ($)</label><input id="tips" type="number" value="15000" min="0" step="500"></div>
+<div><label for="salary">Other annual income ($)</label><input id="salary" type="number" value="30000" min="0" step="1000"></div>
+</div>
+<div class="row">
+<div><label for="status">Filing status</label><select id="status">
+<option value="single">Single</option><option value="married">Married filing jointly</option></select></div>
+</div>
+<button class="btn" id="go">Calculate Savings</button>
+<div class="results" id="results"></div>
+</div>
+<div class="card content">
+<h2>How the "no tax on tips" deduction works</h2>
+<p>Under the One Big Beautiful Bill Act (tax years 2025&ndash;2028), workers in tipped occupations can deduct up to <strong>$25,000</strong> of qualified tips from federal taxable income.</p>
+<ul>
+<li>Applies to voluntarily paid tips (cash, card, or tip-sharing)</li>
+<li>Reduces <strong>federal income tax only</strong> — FICA still applies to all tips</li>
+<li>Phases out above $150,000 single / $300,000 joint modified AGI</li>
+<li>Available whether or not you itemize deductions</li>
+</ul>
+<p>Example: $15,000 of tips in the 12% bracket saves about <strong>$1,800</strong> in federal tax.</p></div>
+<script src="assets/calc.js"></script>
+<script>
+document.getElementById("go").addEventListener("click", function(){
+  var tips=+document.getElementById("tips").value||0, other=+document.getElementById("salary").value||0,
+      status=document.getElementById("status").value;
+  var ded = Math.min(tips, PN.TIPS_DED_MAX);
+  var gross = tips + other;
+  var r0 = PN.calc({gross:gross, status:status, tips:0});
+  var r1 = PN.calc({gross:gross, status:status, tips:ded});
+  var save = r0.fed - r1.fed;
+  var box = document.getElementById("results");
+  box.innerHTML = "<p style='margin-top:8px'>Deductible tips (annual)</p><div class='big'>"+PN.money0(ded)+"</div>"+
+    "<p>Estimated federal tax saved: <b>"+PN.money0(save)+"</b></p>"+
+    "<table><tr><th>Item</th><th class='num'>Amount</th></tr>"+
+    "<tr><td>Tips reported</td><td class='num'>"+PN.money0(tips)+"</td></tr>"+
+    "<tr><td>Deduction cap</td><td class='num'>"+PN.money0(PN.TIPS_DED_MAX)+"</td></tr>"+
+    "<tr><td>Estimated federal tax saved</td><td class='num'>"+PN.money0(save)+"</td></tr></table>";
+  box.classList.add("show");
+});</script>
+
+</main>
+<footer><div class="wrap">
+<p>PaycheckNest — free US paycheck &amp; tax calculators. Estimates for planning only; not tax advice.
+Federal figures: IRS Rev. Proc. 2025-32 (TY2026), SSA 2026 COLA. State rates: 2025/2026 enacted schedules.</p>
+<p>&copy; 2026 PaycheckNest</p>
+<p>Sister site: <a href="https://loannest.pages.dev/">LoanNest — mortgage &amp; loan calculators</a></p></div></footer>
+</body></html>

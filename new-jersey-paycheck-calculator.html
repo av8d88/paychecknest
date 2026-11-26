@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="F0S3I3ddnvG3z9qdL6rDpwDA6bqNE_50ZbUpa1XoUo8">
+<title>New Jersey Paycheck Calculator 2026 — Take-Home Pay After Taxes</title>
+<meta name="description" content="Free New Jersey paycheck calculator for 2026. Estimate your take-home pay after federal, state and FICA taxes. Updated 2026 tax brackets.">
+<link rel="canonical" href="https://paychecknest.pages.dev/new-jersey-paycheck-calculator">
+<meta property="og:title" content="New Jersey Paycheck Calculator 2026 — Take-Home Pay After Taxes">
+<meta property="og:description" content="Free New Jersey paycheck calculator for 2026. Estimate your take-home pay after federal, state and FICA taxes. Updated 2026 tax brackets.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does New Jersey have a state income tax?", "acceptedAnswer": {"@type": "Answer", "text": "New Jersey uses a progressive income tax with multiple brackets and a top marginal rate of about 10.75%."}}, {"@type": "Question", "name": "How accurate is the New Jersey paycheck calculator?", "acceptedAnswer": {"@type": "Answer", "text": "It models 2026 federal brackets, FICA and New Jersey state brackets. Real withholding depends on W-4 settings, benefits, local taxes and credits."}}]}</script>
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header><div class="wrap">
+<a class="logo" href="index">Paycheck<span>Nest</span></a>
+<nav>
+<a href="index">All States</a>
+<a href="overtime-tax-calculator">Overtime Tax</a>
+<a href="tips-tax-calculator">Tips Tax</a>
+<a href="salary-to-hourly-calculator">Salary→Hourly</a>
+</nav></div></header>
+<main class="wrap">
+
+<div class="hero">
+<h1>New Jersey Paycheck Calculator 2026</h1>
+<p>Estimate your New Jersey take-home pay after federal income tax, NJ state tax, Social Security and Medicare. Free, instant, no signup.</p>
+</div>
+
+<div class="card">
+<div class="row">
+<div><label for="salary">Annual gross salary ($)</label><input id="salary" type="number" value="75000" min="0" step="1000"></div>
+<div><label for="status">Filing status</label><select id="status">
+<option value="single">Single</option><option value="married">Married filing jointly</option><option value="hoh">Head of household</option></select></div>
+</div>
+<div class="row">
+<div><label for="k401">Pre-tax 401(k) contribution (%)</label><input id="k401" type="number" value="0" min="0" max="75" step="1"></div>
+<div><label for="freq">Pay frequency</label><select id="freq">
+<option value="biweekly">Every 2 weeks (26 checks)</option><option value="weekly">Weekly (52)</option>
+<option value="semimonthly">Twice a month (24)</option><option value="monthly">Monthly (12)</option></select></div>
+</div>
+<button class="btn" id="calc-btn">Calculate Take-Home Pay</button>
+
+<div class="results" id="results">
+<p style="margin-top:8px">Your estimated take-home pay</p>
+<div class="big" id="r-net-check"></div>
+<p style="color:var(--muted)"><span id="r-period-label"></span> &middot; <b id="r-net-year"></b> per year &middot; you keep <b id="r-pct"></b> of gross</p>
+<table>
+<tr><th>Deduction (annual)</th><th class="num">Amount</th></tr>
+<tr><td>Gross salary</td><td class="num" id="r-gross"></td></tr>
+<tr><td>Federal income tax (effective <span id="r-eff"></span>)</td><td class="num" id="r-fed"></td></tr>
+<tr><td>New Jersey state income tax</td><td class="num" id="r-state"></td></tr>
+<tr><td>Social Security (6.2%)</td><td class="num" id="r-ss"></td></tr>
+<tr><td>Medicare (1.45%)</td><td class="num" id="r-med"></td></tr>
+<tr><td>401(k) contribution</td><td class="num" id="r-401k"></td></tr>
+</table>
+</div>
+</div>
+
+<p style="text-align:center;color:var(--muted)">Paid by the hour? Use the <a href="new-jersey-hourly-paycheck-calculator">New Jersey hourly paycheck calculator</a>.</p>
+
+
+
+<div class="card content">
+<h2>How much tax do you pay in New Jersey?</h2>
+<p>New Jersey uses a <strong>progressive income tax</strong> with multiple brackets and a top marginal rate of about <strong>10.75%</strong>.</p>
+<p>A single filer earning <strong>$75,000</strong> in New Jersey takes home roughly <strong>$58,941 per year</strong> after federal tax, state tax and FICA (estimate, 2026 rules, no other deductions).</p>
+<h2>New Jersey income tax at a glance</h2>
+<ul>
+<li>State income tax: <strong>progressive, up to 10.75%</strong></li>
+<li>Federal standard deduction (2026): $16,100 single / $32,200 married filing jointly</li>
+<li>Social Security: 6.2% on wages up to $184,500</li>
+<li>Medicare: 1.45% on all wages (+0.9% over $200,000)</li>
+</ul>
+<h2>Frequently asked questions</h2>
+<h3>Does New Jersey have a state income tax?</h3>
+<p>New Jersey uses a <strong>progressive income tax</strong> with multiple brackets and a top marginal rate of about <strong>10.75%</strong>.</p>
+<h3>How accurate is this calculator?</h3>
+<p>It models 2026 federal brackets, FICA and New Jersey state brackets. Real withholding also depends on W-4 settings, benefits, local taxes and credits, so treat the result as a close planning estimate, not tax advice.</p>
+<h3>What is the "no tax on overtime / tips" deduction?</h3>
+<p>Under the One Big Beautiful Bill Act (2025&ndash;2028), eligible workers can deduct up to $12,500 of overtime premium pay ($25,000 for joint filers) and up to $25,000 of tips from federal taxable income. Try our <a href="overtime-tax-calculator">overtime tax calculator</a> and <a href="tips-tax-calculator">tips tax calculator</a>.</p>
+</div>
+
+<h2 class="section">Paycheck calculators for other states</h2>
+<div class="state-links"><a href="alabama-paycheck-calculator">AL</a><a href="alaska-paycheck-calculator">AK</a><a href="arizona-paycheck-calculator">AZ</a><a href="arkansas-paycheck-calculator">AR</a><a href="california-paycheck-calculator">CA</a><a href="colorado-paycheck-calculator">CO</a><a href="connecticut-paycheck-calculator">CT</a><a href="delaware-paycheck-calculator">DE</a><a href="district-of-columbia-paycheck-calculator">DC</a><a href="florida-paycheck-calculator">FL</a><a href="georgia-paycheck-calculator">GA</a><a href="hawaii-paycheck-calculator">HI</a><a href="idaho-paycheck-calculator">ID</a><a href="illinois-paycheck-calculator">IL</a><a href="indiana-paycheck-calculator">IN</a><a href="iowa-paycheck-calculator">IA</a><a href="kansas-paycheck-calculator">KS</a><a href="kentucky-paycheck-calculator">KY</a><a href="louisiana-paycheck-calculator">LA</a><a href="maine-paycheck-calculator">ME</a><a href="maryland-paycheck-calculator">MD</a><a href="massachusetts-paycheck-calculator">MA</a><a href="michigan-paycheck-calculator">MI</a><a href="minnesota-paycheck-calculator">MN</a><a href="mississippi-paycheck-calculator">MS</a><a href="missouri-paycheck-calculator">MO</a><a href="montana-paycheck-calculator">MT</a><a href="nebraska-paycheck-calculator">NE</a><a href="nevada-paycheck-calculator">NV</a><a href="new-hampshire-paycheck-calculator">NH</a><a href="new-mexico-paycheck-calculator">NM</a><a href="new-york-paycheck-calculator">NY</a><a href="north-carolina-paycheck-calculator">NC</a><a href="north-dakota-paycheck-calculator">ND</a><a href="ohio-paycheck-calculator">OH</a><a href="oklahoma-paycheck-calculator">OK</a><a href="oregon-paycheck-calculator">OR</a><a href="pennsylvania-paycheck-calculator">PA</a><a href="rhode-island-paycheck-calculator">RI</a><a href="south-carolina-paycheck-calculator">SC</a><a href="south-dakota-paycheck-calculator">SD</a><a href="tennessee-paycheck-calculator">TN</a><a href="texas-paycheck-calculator">TX</a><a href="utah-paycheck-calculator">UT</a><a href="vermont-paycheck-calculator">VT</a><a href="virginia-paycheck-calculator">VA</a><a href="washington-paycheck-calculator">WA</a><a href="west-virginia-paycheck-calculator">WV</a><a href="wisconsin-paycheck-calculator">WI</a><a href="wyoming-paycheck-calculator">WY</a></div>
+
+<script>window.STATE = {"slug": "new-jersey", "name": "New Jersey", "abbr": "NJ", "type": "prog", "std": 0, "brackets": [[20000, 0.014], [35000, 0.0175], [40000, 0.035], [75000, 0.05525], [500000, 0.0637], [1000000, 0.0897], [null, 0.1075]], "note": ""};</script>
+<script src="assets/calc.js"></script>
+<script src="assets/paycheck-page.js"></script>
+
+</main>
+<footer><div class="wrap">
+<p>PaycheckNest — free US paycheck &amp; tax calculators. Estimates for planning only; not tax advice.
+Federal figures: IRS Rev. Proc. 2025-32 (TY2026), SSA 2026 COLA. State rates: 2025/2026 enacted schedules.</p>
+<p>&copy; 2026 PaycheckNest</p>
+<p>Sister site: <a href="https://loannest.pages.dev/">LoanNest — mortgage &amp; loan calculators</a></p></div></footer>
+</body></html>

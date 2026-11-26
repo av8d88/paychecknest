@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://paychecknest.pages.dev/sitemap.xml

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="F0S3I3ddnvG3z9qdL6rDpwDA6bqNE_50ZbUpa1XoUo8">
+<title>Salary to Hourly Calculator 2026 — Convert Annual Pay to Hourly Rate</title>
+<meta name="description" content="Convert annual salary to hourly rate (and back) with adjustable hours per week and weeks per year. Includes quick conversion table.">
+<link rel="canonical" href="https://paychecknest.pages.dev/salary-to-hourly-calculator">
+<meta property="og:title" content="Salary to Hourly Calculator 2026 — Convert Annual Pay to Hourly Rate">
+<meta property="og:description" content="Convert annual salary to hourly rate (and back) with adjustable hours per week and weeks per year. Includes quick conversion table.">
+<meta property="og:type" content="website">
+
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header><div class="wrap">
+<a class="logo" href="index">Paycheck<span>Nest</span></a>
+<nav>
+<a href="index">All States</a>
+<a href="overtime-tax-calculator">Overtime Tax</a>
+<a href="tips-tax-calculator">Tips Tax</a>
+<a href="salary-to-hourly-calculator">Salary→Hourly</a>
+</nav></div></header>
+<main class="wrap">
+
+<div class="hero"><h1>Salary to Hourly Calculator</h1><p>Convert between annual salary and hourly wage instantly.</p></div>
+<div class="card">
+<div class="row">
+<div><label for="salary">Annual salary ($)</label><input id="salary" type="number" value="75000" min="0" step="1000"></div>
+<div><label for="hours">Hours per week</label><input id="hours" type="number" value="40" min="1" max="80" step="1"></div>
+</div>
+<div class="row">
+<div><label for="weeks">Weeks worked per year</label><input id="weeks" type="number" value="52" min="1" max="52" step="1"></div>
+<div><label for="hourly">Or convert hourly → salary ($/hr)</label><input id="hourly" type="number" placeholder="e.g. 30" min="0" step="0.25"></div>
+</div>
+<button class="btn" id="go">Convert</button>
+<div class="results" id="results"></div>
+</div>
+<div class="card content">
+<h2>Salary to hourly conversion table (40 hrs/week)</h2>
+<table>
+<tr><th>Annual salary</th><th class="num">Hourly rate</th></tr>
+<tr><td>$40,000</td><td class="num">$19.23</td></tr>
+<tr><td>$50,000</td><td class="num">$24.04</td></tr>
+<tr><td>$60,000</td><td class="num">$28.85</td></tr>
+<tr><td>$75,000</td><td class="num">$36.06</td></tr>
+<tr><td>$80,000</td><td class="num">$38.46</td></tr>
+<tr><td>$100,000</td><td class="num">$48.08</td></tr>
+<tr><td>$120,000</td><td class="num">$57.69</td></tr>
+</table>
+<p>The standard full-time assumption is <strong>2,080 hours per year</strong> (40 hours &times; 52 weeks). If you take unpaid time off, lower the "weeks worked" value above.</p></div>
+<script src="assets/calc.js"></script>
+<script>
+document.getElementById("go").addEventListener("click", function(){
+  var h=+document.getElementById("hours").value||40, w=+document.getElementById("weeks").value||52,
+      s=+document.getElementById("salary").value||0, hr=+document.getElementById("hourly").value;
+  var box=document.getElementById("results"), html="";
+  if(s>0){ var rate=s/(h*w);
+    html+="<p style='margin-top:8px'>"+PN.money0(s)+" per year = </p><div class='big'>$"+rate.toFixed(2)+" / hour</div>"+
+    "<table><tr><th>Breakdown</th><th class='num'>Amount</th></tr>"+
+    "<tr><td>Hourly</td><td class='num'>$"+rate.toFixed(2)+"</td></tr>"+
+    "<tr><td>Daily (8h)</td><td class='num'>"+PN.money0(rate*8)+"</td></tr>"+
+    "<tr><td>Weekly</td><td class='num'>"+PN.money0(rate*h)+"</td></tr>"+
+    "<tr><td>Monthly</td><td class='num'>"+PN.money0(s/12)+"</td></tr></table>"; }
+  if(hr>0){ var annual=hr*h*w;
+    html+="<p style='margin-top:12px'>$"+hr.toFixed(2)+" per hour = </p><div class='big'>"+PN.money0(annual)+" / year</div>"; }
+  box.innerHTML=html; box.classList.add("show");
+});</script>
+
+</main>
+<footer><div class="wrap">
+<p>PaycheckNest — free US paycheck &amp; tax calculators. Estimates for planning only; not tax advice.
+Federal figures: IRS Rev. Proc. 2025-32 (TY2026), SSA 2026 COLA. State rates: 2025/2026 enacted schedules.</p>
+<p>&copy; 2026 PaycheckNest</p>
+<p>Sister site: <a href="https://loannest.pages.dev/">LoanNest — mortgage &amp; loan calculators</a></p></div></footer>
+</body></html>

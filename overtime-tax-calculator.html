@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="F0S3I3ddnvG3z9qdL6rDpwDA6bqNE_50ZbUpa1XoUo8">
+<title>Overtime Tax Calculator 2026 — No Tax on Overtime Deduction</title>
+<meta name="description" content="Calculate how much the 2025-2028 'no tax on overtime' deduction saves you. Up to $12,500 single / $25,000 married of overtime premium is deductible from federal tax.">
+<link rel="canonical" href="https://paychecknest.pages.dev/overtime-tax-calculator">
+<meta property="og:title" content="Overtime Tax Calculator 2026 — No Tax on Overtime Deduction">
+<meta property="og:description" content="Calculate how much the 2025-2028 'no tax on overtime' deduction saves you. Up to $12,500 single / $25,000 married of overtime premium is deductible from federal tax.">
+<meta property="og:type" content="website">
+
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header><div class="wrap">
+<a class="logo" href="index">Paycheck<span>Nest</span></a>
+<nav>
+<a href="index">All States</a>
+<a href="overtime-tax-calculator">Overtime Tax</a>
+<a href="tips-tax-calculator">Tips Tax</a>
+<a href="salary-to-hourly-calculator">Salary→Hourly</a>
+</nav></div></header>
+<main class="wrap">
+
+<div class="hero"><h1>Overtime Tax Calculator (2026)</h1><p>The One Big Beautiful Bill lets you deduct the overtime premium from federal taxable income. See your savings.</p></div>
+<div class="card">
+<div class="row">
+<div><label for="wage">Regular hourly wage ($)</label><input id="wage" type="number" value="25" min="0" step="0.5"></div>
+<div><label for="hours">Overtime hours per week</label><input id="hours" type="number" value="8" min="0" step="1"></div>
+</div>
+<div class="row">
+<div><label for="status">Filing status</label><select id="status">
+<option value="single">Single</option><option value="married">Married filing jointly</option></select></div>
+<div><label for="salary">Other annual income ($)</label><input id="salary" type="number" value="0" min="0" step="1000"></div>
+</div>
+<button class="btn" id="go">Calculate Savings</button>
+<div class="results" id="results"></div>
+</div>
+<div class="card content">
+<h2>How the "no tax on overtime" deduction works</h2>
+<p>Under the One Big Beautiful Bill Act (tax years 2025&ndash;2028), eligible workers can deduct the <strong>overtime premium portion</strong> of their pay — the extra "half" of time-and-a-half — from federal taxable income.</p>
+<ul>
+<li>Maximum deduction: <strong>$12,500</strong> (single) or <strong>$25,000</strong> (married filing jointly)</li>
+<li>Only the premium portion (0.5x) qualifies, not your full overtime pay</li>
+<li>Reduces <strong>federal income tax only</strong> — Social Security and Medicare still apply</li>
+<li>Phases out at higher incomes ($150,000 single / $300,000 joint, modified AGI)</li>
+</ul>
+<p>Example: at $25/hour with 8 overtime hours a week, your annual deductible premium is $25 &times; 0.5 &times; 8 &times; 52 = <strong>$5,200</strong>. In the 22% bracket that saves about $1,144 in federal tax.</p></div>
+<script src="assets/calc.js"></script>
+<script>
+document.getElementById("go").addEventListener("click", function(){
+  var wage=+document.getElementById("wage").value||0, hours=+document.getElementById("hours").value||0,
+      status=document.getElementById("status").value, other=+document.getElementById("salary").value||0;
+  var premium = wage*0.5*hours*52;           // deductible part: the 0.5x premium
+  var ded = Math.min(premium, PN.OT_DED_MAX[status]);
+  var gross = wage*40*52 + wage*1.5*hours*52 + other;
+  var r0 = PN.calc({gross:gross, status:status, overtimePay:0});
+  var r1 = PN.calc({gross:gross, status:status, overtimePay:ded});
+  var save = r0.fed - r1.fed;
+  var box = document.getElementById("results");
+  box.innerHTML = "<p style='margin-top:8px'>Deductible overtime premium (annual)</p><div class='big'>"+PN.money0(ded)+"</div>"+
+    "<p>Estimated federal tax saved: <b>"+PN.money0(save)+"</b></p>"+
+    "<table><tr><th>Item</th><th class='num'>Amount</th></tr>"+
+    "<tr><td>Annual overtime premium (0.5x portion)</td><td class='num'>"+PN.money0(premium)+"</td></tr>"+
+    "<tr><td>Deduction cap ("+status+")</td><td class='num'>"+PN.money0(PN.OT_DED_MAX[status])+"</td></tr>"+
+    "<tr><td>Estimated federal tax saved</td><td class='num'>"+PN.money0(save)+"</td></tr></table>";
+  box.classList.add("show");
+});</script>
+
+</main>
+<footer><div class="wrap">
+<p>PaycheckNest — free US paycheck &amp; tax calculators. Estimates for planning only; not tax advice.
+Federal figures: IRS Rev. Proc. 2025-32 (TY2026), SSA 2026 COLA. State rates: 2025/2026 enacted schedules.</p>
+<p>&copy; 2026 PaycheckNest</p>
+<p>Sister site: <a href="https://loannest.pages.dev/">LoanNest — mortgage &amp; loan calculators</a></p></div></footer>
+</body></html>
